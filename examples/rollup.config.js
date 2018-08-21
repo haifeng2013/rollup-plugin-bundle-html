@@ -1,4 +1,4 @@
-// import html from 'rollup-plugin-fill-html';
+// import html from 'rollup-plugin-bundle-html';
 import html from '../src/index';
 
 export default {
