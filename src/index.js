@@ -72,14 +72,10 @@ export default (opt = {}) => {
 					writeFileSync(file, code);
 				}
 
-				const src = isURL(file) ? file : relative(firstDir, file);
+				const src = isURL(file) ? file : relative(dest||firstDir, file);
 
 				if (type === 'js') {
-					let attrs = {src: src};
-					let mode = node.mode || defaultmode;
-					if (mode) attrs.type = mode;
-					attrs = Object.entries(([key, val]) => `${key}="${val}"`).join(' ');
-					const script = `<script ${attrs}></script>\n`;
+					const script = `<script type="text/javascript" src="${src}"></script>\n`;
 					// node.inject will cover the inject
 					if (node.inject === 'head' || inject === 'head') {
 						head.append(script);
