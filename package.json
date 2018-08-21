@@ -4,7 +4,7 @@
   "description": "create html with the bundle file",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
-  "repository": "https://github.com/haifeng2013/rollup-plugin.git",
+  "repository": "https://github.com/haifeng2013/rollup-plugin-bundle-html.git",
   "bugs": "https://github.com/haifeng2013/rollup-plugin/issues",
   "author": "louisx",
   "license": "MIT",
