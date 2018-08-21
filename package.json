@@ -1,12 +1,12 @@
 {
-  "name": "rollup-plugin-fill-html",
-  "version": "1.1.0",
-  "description": "fill html with the bundle file",
+  "name": "rollup-plugin-bundle-html",
+  "version": "0.0.1",
+  "description": "create html with the bundle file",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
-  "repository": "https://github.com/alwaysonlinetxm/rollup-plugin-fill-html.git",
-  "bugs": "https://github.com/alwaysonlinetxm/rollup-plugin-fill-html/issues",
-  "author": "alwaysolinetxm",
+  "repository": "https://github.com/haifeng2013/rollup-plugin.git",
+  "bugs": "https://github.com/haifeng2013/rollup-plugin/issues",
+  "author": "louisx",
   "license": "MIT",
   "files": [
     "src",
@@ -17,12 +17,11 @@
     "rollup",
     "rollup-plugin",
     "html",
-    "fill-html"
+    "bundle-html"
   ],
   "scripts": {
     "build": "rollup -c",
     "eslint": "eslint src",
-    "test": "jasmine",
     "prepublish": "npm run eslint && npm run build"
   },
   "devDependencies": {
