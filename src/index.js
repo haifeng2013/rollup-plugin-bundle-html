@@ -37,10 +37,10 @@ export default (opt = {}) => {
 			const fileList = [];
 			// relative('./', dest) will not be equal to dest when dest is a absolute path
 			const destPath = relative('./', file);
-			const firstDir = destPath.slice(0, destPath.indexOf(pathSeperator));
-			const destFile = `${firstDir}/${filename || basename(template)}`;
+			const destDir = dest || destPath.slice(0, destPath.indexOf(pathSeperator));
+			const destFile = `${destDir}/${filename || basename(template)}`;
 
-			traverse(dest||firstDir, fileList);
+			traverse(destDir, fileList);
 
 			if (Array.isArray(externals)) {
 				let firstBundle = 0;
@@ -72,7 +72,7 @@ export default (opt = {}) => {
 					writeFileSync(file, code);
 				}
 
-				const src = isURL(file) ? file : relative(dest||firstDir, file);
+				const src = isURL(file) ? file : relative(destDir, file);
 
 				if (type === 'js') {
 					const script = `<script type="text/javascript" src="${src}"></script>\n`;
