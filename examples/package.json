@@ -1,0 +1,17 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "a test project",
+  "main": "index.js",
+  "author": "alwaysonlinrtxm",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -r ./dist",
+    "start": "rollup -c -w"
+  },
+  "devDependencies": {
+    "rollup": "^0.48.0",
+    "rollup-plugin-fill-html": "^1.0.5",
+    "rollup-watch": "^4.0.0"
+  }
+}
