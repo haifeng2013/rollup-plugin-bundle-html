@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-bundle-html",
-  "version": "0.1.2",
+  "version": "0.1.1",
   "description": "create html with the bundle file",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
