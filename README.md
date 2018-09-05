@@ -38,21 +38,21 @@ export default {
 ```html
 <!-- src/template.html -->
 <html>
-<head>
-</head>
-<body>
-</body>
+  <head>
+  </head>
+  <body>
+  </body>
 </html>
 
 <!-- dist/foo/index.html -->
 <html>
-<head>
-<script type="text/javascript" src="../../file1.js"></script>
-<script type="text/javascript" src="../../file2.js"></script>
-<script type="text/javascript" src="bundle.js"></script>
-</head>
-<body>
-</body>
+  <head>
+    <script type="text/javascript" src="../../file1.js"></script>
+    <script type="text/javascript" src="../../file2.js"></script>
+    <script type="text/javascript" src="bundle.js"></script>
+  </head>
+  <body>
+  </body>
 </html>
 ```
 ## Options
@@ -64,6 +64,10 @@ You can pass an option to the `html()` just like above, and there are some optio
   template name will be used.
 - externals: Optional. a list of files which will be insert into the resule
   html. The file should be a valid url.
+  - externals.file: file path.
+  - externals.type: the type of file. can be 'js' or 'css'.
+  - externals.pos: position where the file is inserted.
+  - externals.timestamp: append timestamp as query string to file path.
 - inject: Optional. indicate where to insert files， it can be 'head' or
   'body'. For default, the css files will be inserted into `<head>` and the js
   files will be inserted into `<body>`.
