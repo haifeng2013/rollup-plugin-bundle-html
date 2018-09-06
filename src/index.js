@@ -75,7 +75,7 @@ export default (opt = {}) => {
 				let src = isURL(file) ? file : relative(destDir, file);
 				
 				if (node.timestamp) {
-				    src += '?t=' + (new Date()).getTime(); 
+                    src += '?t=' + (new Date()).getTime(); 
 				}
 
 				if (type === 'js') {
