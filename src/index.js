@@ -33,9 +33,9 @@ export default (opt = {}) => {
 			const $ = cheerio.load(readFileSync(template).toString());
 			const head = $('head');
 			const body = $('body');
-			const { file } = config;
+			const { file, sourcemap } = config;
 			const fileList = [];
-			// relative('./', dest) will not be equal to dest when dest is a absolute path
+			// relative('./', file) will not be equal to file when file is a absolute path
 			const destPath = relative('./', file);
 			const destDir = dest || destPath.slice(0, destPath.indexOf(pathSeperator));
 			const destFile = `${destDir}/${filename || basename(template)}`;
@@ -65,6 +65,19 @@ export default (opt = {}) => {
 					} else {
 						code = readFileSync(file).toString();
 					}
+					
+                    if (sourcemap) {
+                        let srcmapFile = file + ".map";
+                        let srcmapCode = readFileSync(srcmapFile).toString();
+                        let srcmapHash = hasha(srcmapCode, { algorithm: 'md5' });
+                        
+                        // remove the source map file without hash
+                        unlinkSync(srcmapFile);
+                        srcmapFile = srcmapFile.replace('[hash]', srcmapHash);
+                        writeFileSync(srcmapFile, srcmapCode);
+                        
+                        code = code.replace(`//# sourceMappingURL=${basename(file)}.map`, `//# sourceMappingURL=${basename(srcmapFile)}`)
+                    }
 					hash = hasha(code, { algorithm: 'md5' });
 					// remove the file without hash
 					unlinkSync(file);
