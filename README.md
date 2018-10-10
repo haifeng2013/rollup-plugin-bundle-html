@@ -55,6 +55,27 @@ export default {
   </body>
 </html>
 ```
+
+## Hash
+
+You can set string '[hash]' for output file in rollup.config.js, and your bundle and source map (if you turned on 
+sourcemap option) will have the string '[hash]' be replaced by its hash.
+```js
+export default {
+  input: 'src/main.js',
+  output: {
+    file: 'dist/foo/bundle-[hash].js',
+    // Turn on sourcemap
+	sourcemap: true  
+  },        
+  plugins: [
+    	...
+  ]
+};
+```
+You will find `bundle-76bf4fb5dbbd62f0fa3708aa3d8a9350.js` and `bundle-84e0f899735b1e320e625c9a5c7c49a7.js.map` 
+in your `dist/foo` folder.
+
 ## Options
 
 You can pass an option to the `html()` just like above, and there are some options:
