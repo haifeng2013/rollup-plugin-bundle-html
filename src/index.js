@@ -66,18 +66,18 @@ export default (opt = {}) => {
 						code = readFileSync(file).toString();
 					}
 					
-                    if (sourcemap) {
-                        let srcmapFile = file + ".map";
-                        let srcmapCode = readFileSync(srcmapFile).toString();
-                        let srcmapHash = hasha(srcmapCode, { algorithm: 'md5' });
-                        
-                        // remove the source map file without hash
-                        unlinkSync(srcmapFile);
-                        srcmapFile = srcmapFile.replace('[hash]', srcmapHash);
-                        writeFileSync(srcmapFile, srcmapCode);
-                        
-                        code = code.replace(`//# sourceMappingURL=${basename(file)}.map`, `//# sourceMappingURL=${basename(srcmapFile)}`)
-                    }
+				    	if (sourcemap) {
+						let srcmapFile = file + ".map";
+						let srcmapCode = readFileSync(srcmapFile).toString();
+						let srcmapHash = hasha(srcmapCode, { algorithm: 'md5' });
+
+						// remove the source map file without hash
+						unlinkSync(srcmapFile);
+						srcmapFile = srcmapFile.replace('[hash]', srcmapHash);
+						writeFileSync(srcmapFile, srcmapCode);
+
+						code = code.replace(`//# sourceMappingURL=${basename(file)}.map`, `//# sourceMappingURL=${basename(srcmapFile)}`)
+				    	}
 					hash = hasha(code, { algorithm: 'md5' });
 					// remove the file without hash
 					unlinkSync(file);
