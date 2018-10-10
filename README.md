@@ -66,10 +66,10 @@ export default {
   output: {
     file: 'dist/foo/bundle-[hash].js',
     // Turn on sourcemap
-	sourcemap: true  
+    sourcemap: true  
   },        
   plugins: [
-    	...
+    ...
   ]
 };
 ```
