@@ -73,8 +73,8 @@ export default {
   ]
 };
 ```
-You will find `bundle-76bf4fb5dbbd62f0fa3708aa3d8a9350.js` and `bundle-84e0f899735b1e320e625c9a5c7c49a7.js.map` 
-in your `dist/foo` folder.
+You will find both bundle and map files are hashed and placed in your `dist/foo` folder:
+ `bundle-76bf4fb5dbbd62f0fa3708aa3d8a9350.js`, `bundle-84e0f899735b1e320e625c9a5c7c49a7.js.map` 
 
 ## Options
 
