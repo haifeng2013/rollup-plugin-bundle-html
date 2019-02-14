@@ -1,31 +1,34 @@
-# rollup-plugin-bundle-html
-This plugin inject the bundle js file as well as external js files to html template.
-This plugin extends from [rollup-plugin-fill-html](https://github.com/alwaysonlinetxm/rollup-plugin-fill-html) to provide
-more flexibility for injecting files.
+# rollup-plugin-bundle-html-thomzz
+This plugin is forked from ©[rollup-plugin-bundle-html](https://github.com/haifeng2013/rollup-plugin-bundle-html),
+and is virtually the same, appart from adding more flexibility for my own needs, and adding an "ignoredFiles" options.
 
 ## Installation
 
-    yarn add --dev rollup-plugin-bundle-html
+    yarn add --dev rollup-plugin-bundle-html-thomzz
 
 or
 
-    npm install -D rollup-plugin-bundle-html
+    npm install -D rollup-plugin-bundle-html-thomzz
 
 ## Usage
 ```js
-import html from 'rollup-plugin-bundle-html';
+import html from 'rollup-plugin-bundle-html-thomzz';
 
 export default {
   input: 'src/main.js',
   output: {
     file: 'dist/foo/bundle.js',
-  },        
+  },
   plugins: [
     html({
         template: 'src/template.html',
         dest: "dist/foo",
         filename: 'index.html',
         inject: 'head',
+        ignoredFiles: [
+          'workers',
+          'externalSlowToBundleFile.js'
+        ]
         externals: [
             { type: 'js', file: "file1.js", pos: 'before' },
             { type: 'js', file: "file2.js", pos: 'before' }
@@ -58,7 +61,7 @@ export default {
 
 ## Hash
 
-You can set string '[hash]' for output file in rollup.config.js, and your bundle and source map (if you turned on 
+You can set string '[hash]' for output file in rollup.config.js, and your bundle and source map (if you turned on
 sourcemap option) will have the string '[hash]' be replaced by its hash.
 ```js
 export default {
@@ -66,15 +69,15 @@ export default {
   output: {
     file: 'dist/foo/bundle-[hash].js',
     // Turn on sourcemap
-    sourcemap: true  
-  },        
+    sourcemap: true
+  },
   plugins: [
     ...
   ]
 };
 ```
 You will find both bundle and map files are hashed and placed in your `dist/foo` folder:
- `bundle-76bf4fb5dbbd62f0fa3708aa3d8a9350.js`, `bundle-84e0f899735b1e320e625c9a5c7c49a7.js.map` 
+ `bundle-76bf4fb5dbbd62f0fa3708aa3d8a9350.js`, `bundle-84e0f899735b1e320e625c9a5c7c49a7.js.map`
 
 ## Options
 
@@ -83,6 +86,8 @@ You can pass an option to the `html()` just like above, and there are some optio
 - template: Required. the path of the template file, it should be a html file.
 - filename: Optional. the name of the result html file, if omitted, the
   template name will be used.
+- ignoredFiles: Optional. An array containing all files to ignore when scanning the build directory.
+  Specifying a directory name will make all children files ignored.
 - externals: Optional. a list of files which will be insert into the resule
   html. The file should be a valid url.
   - externals.file: file path.

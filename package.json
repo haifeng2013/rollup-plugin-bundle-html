@@ -1,5 +1,5 @@
 {
-  "name": "rollup-plugin-bundle-html",
+  "name": "rollup-plugin-bundle-html-thomzz",
   "version": "0.1.2",
   "description": "create html with the bundle file",
   "main": "dist/index.cjs.js",
