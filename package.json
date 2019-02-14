@@ -1,12 +1,11 @@
 {
-  "name": "rollup-plugin-bundle-html",
-  "version": "0.1.2",
+  "name": "rollup-plugin-bundle-html-thomzz",
+  "version": "0.1.3",
   "description": "create html with the bundle file",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
-  "repository": "https://github.com/haifeng2013/rollup-plugin-bundle-html.git",
-  "bugs": "https://github.com/haifeng2013/rollup-plugin/issues",
-  "author": "louisx",
+  "repository": "https://github.com/ThomZz/rollup-plugin-bundle-html-thomzz.git",
+  "author": "thomzz all credits to louisx",
   "license": "MIT",
   "files": [
     "src",

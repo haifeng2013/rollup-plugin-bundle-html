@@ -1,34 +1,37 @@
 import { statSync, readFileSync, writeFileSync, readdirSync, unlinkSync } from 'fs';
 import { relative, basename, sep as pathSeperator } from 'path';
 import hasha from 'hasha';
-// import cheerio from 'cheerio';
+
 const cheerio = require('cheerio');
 
-function traverse(dir, list) {
+function traverse(dir, list, ignoredFiles) {
 	const dirList = readdirSync(dir);
 	dirList.forEach(node => {
 		const file = `${dir}/${node}`;
-		if (statSync(file).isDirectory()) {
-			traverse(file, list);
-		} else {
-			if (/\.js$/.test(file)) {
-				list.push({ type: 'js', file });
-			} else if (/\.css$/.test(file)) {
-				list.push({ type: 'css', file });
+		if (!ignoredFiles.includes(node)) {
+			if (statSync(file).isDirectory()) {
+				traverse(file, list, ignoredFiles);
+			} else {
+				if (/\.js$/.test(file)) {
+					list.push({ type: 'js', file });
+				} else if (/\.css$/.test(file)) {
+					list.push({ type: 'css', file });
+				}
 			}
 		}
 	});
 }
 
-function isURL(url){
-  return (new RegExp('^(?:[a-z]+:)?//', 'i')).test(url);
+function isURL(url) {
+	return (new RegExp('^(?:[a-z]+:)?//', 'i')).test(url);
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest } = opt;
+	const { template, filename, externals, inject, dest, ignoredFiles } = opt;
 
 	return {
 		name: 'html',
+		//TODO: generateBundle seems to gives a different result, as the file are not written to disk, but are streamed in memory.
 		onwrite(config, data) {
 			const $ = cheerio.load(readFileSync(template).toString());
 			const head = $('head');
@@ -40,11 +43,11 @@ export default (opt = {}) => {
 			const destDir = dest || destPath.slice(0, destPath.indexOf(pathSeperator));
 			const destFile = `${destDir}/${filename || basename(template)}`;
 
-			traverse(destDir, fileList);
+			traverse(destDir, fileList, ignoredFiles);
 
 			if (Array.isArray(externals)) {
 				let firstBundle = 0;
-				externals.forEach(function(node) {
+				externals.forEach(function (node) {
 					if (node.pos === 'before') {
 						fileList.splice(firstBundle++, 0, node);
 					} else {
@@ -65,8 +68,8 @@ export default (opt = {}) => {
 					} else {
 						code = readFileSync(file).toString();
 					}
-					
-				    	if (sourcemap) {
+
+					if (sourcemap) {
 						let srcmapFile = file + ".map";
 						let srcmapCode = readFileSync(srcmapFile).toString();
 						let srcmapHash = hasha(srcmapCode, { algorithm: 'md5' });
@@ -77,7 +80,7 @@ export default (opt = {}) => {
 						writeFileSync(srcmapFile, srcmapCode);
 
 						code = code.replace(`//# sourceMappingURL=${basename(file)}.map`, `//# sourceMappingURL=${basename(srcmapFile)}`)
-				    	}
+					}
 					hash = hasha(code, { algorithm: 'md5' });
 					// remove the file without hash
 					unlinkSync(file);
@@ -86,9 +89,9 @@ export default (opt = {}) => {
 				}
 
 				let src = isURL(file) ? file : relative(destDir, file);
-				
+
 				if (node.timestamp) {
-                    src += '?t=' + (new Date()).getTime(); 
+					src += '?t=' + (new Date()).getTime();
 				}
 
 				if (type === 'js') {
