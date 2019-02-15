@@ -1,6 +1,7 @@
 # rollup-plugin-bundle-html-thomzz
 This plugin is forked from ©[rollup-plugin-bundle-html](https://github.com/haifeng2013/rollup-plugin-bundle-html),
-and is virtually the same, appart from adding more flexibility for my own needs, and adding an "ignoredFiles" options.
+and is virtually the same, appart from adding more flexibility for my own needs, and adding an some useful options,
+like the possibilty to inline file content directly to the generated html, to exclude files, and to minify inlined css with "clean-css".
 
 ## Installation
 
@@ -25,10 +26,12 @@ export default {
         dest: "dist/foo",
         filename: 'index.html',
         inject: 'head',
-        ignoredFiles: [
+        exclude: [
           'workers',
           'externalSlowToBundleFile.js'
-        ]
+        ],
+        inline: true,
+        minifyCss: true,
         externals: [
             { type: 'js', file: "file1.js", pos: 'before' },
             { type: 'js', file: "file2.js", pos: 'before' }
@@ -86,8 +89,11 @@ You can pass an option to the `html()` just like above, and there are some optio
 - template: Required. the path of the template file, it should be a html file.
 - filename: Optional. the name of the result html file, if omitted, the
   template name will be used.
-- ignoredFiles: Optional. An array containing all files to ignore when scanning the build directory.
+- exclude: Optional. An array containing all files to ignore when scanning the build directory.
   Specifying a directory name will make all children files ignored.
+- inline: Optional. The files content will be directly inlined into the html.
+- minifyCss: Optional. This options apply only if inline options is set to true, and if css files are present in the bundle directory.
+  the css will be minified with "clean-css" before being appended to the `<head>` of the document.
 - externals: Optional. a list of files which will be insert into the resule
   html. The file should be a valid url.
   - externals.file: file path.

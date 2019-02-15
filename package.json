@@ -1,11 +1,11 @@
 {
   "name": "rollup-plugin-bundle-html-thomzz",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "create html with the bundle file",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "repository": "https://github.com/ThomZz/rollup-plugin-bundle-html-thomzz.git",
-  "author": "thomzz all credits to louisx",
+  "author": "thomzz [all credits to louisx]",
   "license": "MIT",
   "files": [
     "src",
@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "hasha": "^3.0.0"
+    "hasha": "^3.0.0",
+    "clean-css": "^3.4.21"
   }
 }

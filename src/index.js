@@ -1,16 +1,17 @@
 import { statSync, readFileSync, writeFileSync, readdirSync, unlinkSync } from 'fs';
 import { relative, basename, sep as pathSeperator } from 'path';
+import CleanCss from 'clean-css'
 import hasha from 'hasha';
 
 const cheerio = require('cheerio');
 
-function traverse(dir, list, ignoredFiles) {
+function traverse(dir, list, exclude = []) {
 	const dirList = readdirSync(dir);
 	dirList.forEach(node => {
 		const file = `${dir}/${node}`;
-		if (!ignoredFiles.includes(node)) {
+		if (!exclude.includes(node)) {
 			if (statSync(file).isDirectory()) {
-				traverse(file, list, ignoredFiles);
+				traverse(file, list, exclude);
 			} else {
 				if (/\.js$/.test(file)) {
 					list.push({ type: 'js', file });
@@ -27,7 +28,7 @@ function isURL(url) {
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest, ignoredFiles } = opt;
+	const { template, filename, externals, inject, dest, inline, minifyCss, exclude } = opt;
 
 	return {
 		name: 'html',
@@ -43,7 +44,7 @@ export default (opt = {}) => {
 			const destDir = dest || destPath.slice(0, destPath.indexOf(pathSeperator));
 			const destFile = `${destDir}/${filename || basename(template)}`;
 
-			traverse(destDir, fileList, ignoredFiles);
+			traverse(destDir, fileList, exclude);
 
 			if (Array.isArray(externals)) {
 				let firstBundle = 0;
@@ -60,15 +61,18 @@ export default (opt = {}) => {
 				let { type, file } = node;
 				let hash = '';
 				let code = '';
+				const isHash = /\[hash\]/.test(file);
 
-				if (/\[hash\]/.test(file)) {
+				if (inline || isHash) {
 					if (file === destPath) {
 						// data.code will remove the last line of the source code(//# sourceMappingURL=xxx), so it's needed to add this
-						code = data.code + `//# sourceMappingURL=${basename(file)}.map`;
+						code = `${data.code}//# sourceMappingURL=${basename(file)}.map`;
 					} else {
 						code = readFileSync(file).toString();
 					}
+				}
 
+				if (isHash) {
 					if (sourcemap) {
 						let srcmapFile = file + ".map";
 						let srcmapCode = readFileSync(srcmapFile).toString();
@@ -98,12 +102,19 @@ export default (opt = {}) => {
 					const script = `<script type="text/javascript" src="${src}"></script>\n`;
 					// node.inject will cover the inject
 					if (node.inject === 'head' || inject === 'head') {
-						head.append(script);
+						head.append(inline ? `<script type="text/javascript">\n${code}\n</script>` : script);
 					} else {
-						body.append(script);
+						body.append(inline ? `<script>\n${code}\n</script>` : script);
 					}
 				} else if (type === 'css') {
-					head.append(`<link rel="stylesheet" href="${src}">\n`);
+					let style;
+					if (inline) {
+						style = `<style>\n${minifyCss ? new CleanCss().minify(code).styles : code}\n</style>`
+					}
+					else {
+						style = `<link rel="stylesheet" href="${src}">\n`;
+					}
+					head.append(style);
 				}
 			});
 			writeFileSync(destFile, $.html());
