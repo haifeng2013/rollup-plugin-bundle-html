@@ -31,7 +31,7 @@ export default (opt = {}) => {
 		name: 'html',
 		onwrite(config, data) {
 			const isHTML = /^.*<html>.*<\/html>$/.test(template);
-			const $ = cheerio.load(isHTML ? template : readFileSync(template).toString());
+			const $ = cheerio.load(isHTML?template:readFileSync(template).toString());
 			const head = $('head');
 			const body = $('body');
 			const { file, sourcemap } = config;
@@ -66,8 +66,7 @@ export default (opt = {}) => {
 					} else {
 						code = readFileSync(file).toString();
 					}
-					
-				    	if (sourcemap) {
+					if (sourcemap) {
 						let srcmapFile = file + ".map";
 						let srcmapCode = readFileSync(srcmapFile).toString();
 						let srcmapHash = hasha(srcmapCode, { algorithm: 'md5' });
@@ -78,7 +77,7 @@ export default (opt = {}) => {
 						writeFileSync(srcmapFile, srcmapCode);
 
 						code = code.replace(`//# sourceMappingURL=${basename(file)}.map`, `//# sourceMappingURL=${basename(srcmapFile)}`)
-				    	}
+					}
 					hash = hasha(code, { algorithm: 'md5' });
 					// remove the file without hash
 					unlinkSync(file);
