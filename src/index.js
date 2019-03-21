@@ -30,7 +30,8 @@ export default (opt = {}) => {
 	return {
 		name: 'html',
 		onwrite(config, data) {
-			const $ = cheerio.load(readFileSync(template).toString());
+			const isHTML = /^.*<html>.*<\/html>$/.test(template);
+			const $ = cheerio.load(isHTML ? template : readFileSync(template).toString());
 			const head = $('head');
 			const body = $('body');
 			const { file, sourcemap } = config;
