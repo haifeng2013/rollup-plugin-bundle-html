@@ -29,7 +29,7 @@ export default (opt = {}) => {
 
 	return {
 		name: 'html',
-		onwrite(config, data) {
+		generateBundle(config, data) {
 			const isHTML = /^.*<html>.*<\/html>$/.test(template);
 			const $ = cheerio.load(isHTML?template:readFileSync(template).toString());
 			const head = $('head');
