@@ -29,15 +29,19 @@ export default (opt = {}) => {
 
 	return {
 		name: 'html',
-		onwrite(config, data) {
+		writeBundle(config, data) {
 			const isHTML = /^.*<html>.*<\/html>$/.test(template);
 			const $ = cheerio.load(isHTML?template:readFileSync(template).toString());
 			const head = $('head');
 			const body = $('body');
-			const { file, sourcemap } = config;
+			let entryConfig = {};
+			Object.values(config).forEach((c) => {
+				if (c.isEntry) entryConfig = c
+			})
+			const { fileName,	sourcemap } = entryConfig
 			const fileList = [];
 			// relative('./', file) will not be equal to file when file is a absolute path
-			const destPath = relative('./', file);
+			const destPath = relative('./', fileName);
 			const destDir = dest || destPath.slice(0, destPath.indexOf(pathSeperator));
 			const destFile = `${destDir}/${filename || basename(template)}`;
 
@@ -86,9 +90,9 @@ export default (opt = {}) => {
 				}
 
 				let src = isURL(file) ? file : relative(destDir, file);
-				
+
 				if (node.timestamp) {
-                    src += '?t=' + (new Date()).getTime(); 
+                    src += '?t=' + (new Date()).getTime();
 				}
 
 				if (type === 'js') {
