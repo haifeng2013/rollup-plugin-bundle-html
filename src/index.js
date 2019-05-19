@@ -89,7 +89,7 @@ export default (opt = {}) => {
 					writeFileSync(file, code);
 				}
 
-				let src = isURL(file) ? file : relative(destDir, file);
+				let src = isURL(file) ? file : relative(destDir, file).replace(/\\/g, '/');
 
 				if (node.timestamp) {
                     src += '?t=' + (new Date()).getTime();
