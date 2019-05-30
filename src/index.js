@@ -25,7 +25,7 @@ function isURL(url){
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest } = opt;
+	const { template, filename, externals, inject, dest, absolute } = opt;
 
 	return {
 		name: 'html',
@@ -44,6 +44,7 @@ export default (opt = {}) => {
 			const destPath = relative('./', fileName);
 			const destDir = dest || destPath.slice(0, destPath.indexOf(pathSeperator));
 			const destFile = `${destDir}/${filename || basename(template)}`;
+			const absolutePathPrefix = absolute ? '/' : '';
 
 			traverse(destDir, fileList);
 
@@ -89,7 +90,7 @@ export default (opt = {}) => {
 					writeFileSync(file, code);
 				}
 
-				let src = isURL(file) ? file : relative(destDir, file);
+				let src = isURL(file) ? file : absolutePathPrefix + relative(destDir, file).replace(/\\/g, '/');
 
 				if (node.timestamp) {
                     src += '?t=' + (new Date()).getTime();
