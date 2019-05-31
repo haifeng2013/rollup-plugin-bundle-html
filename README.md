@@ -98,6 +98,7 @@ You can pass an option to the `html()` just like above, and there are some optio
   If no mode is specified, the `type` attribute is omitted. Externals can
   optionally override this per file.
 - dest: Optional. the folder in which js file is searched and be injected to html file.
+- absolute: Optional. make src absolute (https://github.com/haifeng2013/rollup-plugin-bundle-html/pull/7)
 
 ## License
 
