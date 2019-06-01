@@ -4,11 +4,11 @@ import hasha from 'hasha';
 // import cheerio from 'cheerio';
 const cheerio = require('cheerio');
 
-function traverse(dir, list) {
+function traverse(dir, list, recursive) {
 	const dirList = readdirSync(dir);
 	dirList.forEach(node => {
 		const file = `${dir}/${node}`;
-		if (statSync(file).isDirectory()) {
+		if (recursive && statSync(file).isDirectory()) {
 			traverse(file, list);
 		} else {
 			if (/\.js$/.test(file)) {
@@ -25,7 +25,7 @@ function isURL(url){
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest, absolute } = opt;
+	const { template, filename, externals, inject, dest, absolute, recursive } = opt;
 
 	return {
 		name: 'html',
@@ -46,7 +46,7 @@ export default (opt = {}) => {
 			const destFile = `${destDir}/${filename || basename(template)}`;
 			const absolutePathPrefix = absolute ? '/' : '';
 
-			traverse(destDir, fileList);
+			traverse(destDir, fileList, recursive);
 
 			if (Array.isArray(externals)) {
 				let firstBundle = 0;
