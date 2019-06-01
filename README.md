@@ -98,6 +98,7 @@ You can pass an option to the `html()` just like above, and there are some optio
   If no mode is specified, the `type` attribute is omitted. Externals can
   optionally override this per file.
 - dest: Optional. the folder in which js file is searched and be injected to html file.
+- recursive: Optional. Default false. If true inject all subfolders in "dest".
 
 ## License
 
