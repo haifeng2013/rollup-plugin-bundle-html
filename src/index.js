@@ -25,7 +25,7 @@ function isURL(url){
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest, absolute } = opt;
+	const { template, filename, externals, inject, dest, absolute, async, defer } = opt;
 
 	return {
 		name: 'html',
@@ -97,7 +97,7 @@ export default (opt = {}) => {
 				}
 
 				if (type === 'js') {
-					const script = `<script type="text/javascript" src="${src}"></script>\n`;
+					const script = `<script type="text/javascript" src="${src}" ${async ? 'async' : ''} ${defer ? 'defer' : ''}></script>\n`;
 					// node.inject will cover the inject
 					if (node.inject === 'head' || inject === 'head') {
 						head.append(script);
