@@ -8,6 +8,7 @@
   "bugs": "https://github.com/haifeng2013/rollup-plugin/issues",
   "author": "louisx",
   "license": "MIT",
+  "types": "index.d.ts",
   "files": [
     "src",
     "dist",
