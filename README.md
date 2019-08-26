@@ -81,24 +81,25 @@ You will find both bundle and map files are hashed and placed in your `dist/foo`
 
 You can pass an option to the `html()` just like above, and there are some options:
 
-- template: Required. either path or code string of the template file, template should
+- __template__: (*required*)  either path or code string of the template file, template should 
   be a html file.
-- filename: Optional if 'template' is a path. the name of the result html file, if omitted,
+- __filename__: *optional* if 'template' is a path: the name of the result html file, if omitted, 
   will use name in template as file name.
-- externals: Optional. a list of files which will be insert into the resule
+- __externals__: (*optional*) a list of files which will be insert into the resule
   html. The file should be a valid url.
-  - externals.file: file path.
-  - externals.type: the type of file. can be 'js' or 'css'.
-  - externals.pos: position where the file is inserted.
-  - externals.timestamp: append timestamp as query string to file path.
-- inject: Optional. indicate where to insert files， it can be 'head' or
+  - externals.__file__: file path.
+  - externals.__type__: the type of file. can be 'js' or 'css'.
+  - externals.__pos__: position where the file is inserted.
+  - externals.__timestamp__: append timestamp as query string to file path.
+- __inject__: (*optional*) indicate where to insert files， it can be 'head' or
   'body'. For default, the css files will be inserted into `<head>` and the js
   files will be inserted into `<body>`.
-- defaultmode: Optional. specify a value to use in the script `type` attribute.
+- __defaultmode__: (*optional*) specify a value to use in the script `type` attribute.
   If no mode is specified, the `type` attribute is omitted. Externals can
   optionally override this per file.
-- dest: Optional. the folder in which js file is searched and be injected to html file.
-- ignore: Optional. specify a regex that will prevent all matching files from being injected.
+- __dest__: (*optional*) the folder in which js file is searched and be injected to html file.
+- __absolute__: (*optional*) indicates is paths of injected files should starts with "/".
+- __ignore__: (*optional*) specify a regex that will prevent all matching files from being injected.
 
 ## License
 
