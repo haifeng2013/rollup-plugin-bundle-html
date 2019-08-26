@@ -25,7 +25,7 @@ function isURL(url){
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest, absolute } = opt;
+	const { template, filename, externals, inject, dest, absolute, ignore } = opt;
 
 	return {
 		name: 'html',
@@ -61,6 +61,11 @@ export default (opt = {}) => {
 
 			fileList.forEach(node => {
 				let { type, file } = node;
+
+				if (ignore && file.match(ignore)) {
+					return;
+				}
+
 				let hash = '';
 				let code = '';
 
