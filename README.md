@@ -77,6 +77,28 @@ export default {
 You will find both bundle and map files are hashed and placed in your `dist/foo` folder:
  `bundle-76bf4fb5dbbd62f0fa3708aa3d8a9350.js`, `bundle-84e0f899735b1e320e625c9a5c7c49a7.js.map`
 
+## prefix
+
+You can set 'prefix' as anything like `//www.sohu.com/` if you want to put the files on CDN after building.
+
+```js
+{
+  output: {
+    file: 'dist/foo/main.js',
+  },
+  // ...
+  plugins: [
+    html({
+        dest: "dist/foo",
+        // ...
+        prefix: '//www.sohu.com/dist/foo'
+    })
+  ]
+}
+```
+
+and you will get something like: `<script src="//www.sohu.com/dist/foo/main.js"></script>`.
+
 ## Options
 
 You can pass an option to the `html()` just like above, and there are some options:
@@ -100,6 +122,8 @@ You can pass an option to the `html()` just like above, and there are some optio
 - __dest__: (*optional*) the folder in which js file is searched and be injected to html file.
 - __absolute__: (*optional*) indicates is paths of injected files should starts with "/".
 - __ignore__: (*optional*) specify a regex that will prevent all matching files from being injected.
+- __prefix__: (*optional*) add a prefix to the file while bundle file would be 
+  pushed into CDN instead of a local file.
 
 ## License
 

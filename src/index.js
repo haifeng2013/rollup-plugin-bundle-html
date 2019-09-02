@@ -25,7 +25,7 @@ function isURL(url){
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest, absolute, ignore } = opt;
+	const { template, filename, externals, inject, dest, absolute, ignore, prefix } = opt;
 
 	return {
 		name: 'html',
@@ -61,7 +61,6 @@ export default (opt = {}) => {
 
 			fileList.forEach(node => {
 				let { type, file } = node;
-
 				if (ignore && file.match(ignore)) {
 					return;
 				}
@@ -95,8 +94,13 @@ export default (opt = {}) => {
 					writeFileSync(file, code);
 				}
 
+				
 				let src = isURL(file) ? file : absolutePathPrefix + relative(destDir, file).replace(/\\/g, '/');
-
+				if (prefix) { 
+					const filename = file.split('/').slice(-1)[0];
+					const divide = filename.slice(-1) === '/' ? '' : '/';
+					src = prefix + divide + filename;
+				}
 				if (node.timestamp) {
                     src += '?t=' + (new Date()).getTime();
 				}
