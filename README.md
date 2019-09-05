@@ -122,7 +122,7 @@ You can pass an option to the `html()` just like above, and there are some optio
 - __dest__: (*optional*) the folder in which js file is searched and be injected to html file.
 - __absolute__: (*optional*) indicates is paths of injected files should starts with "/".
 - __ignore__: (*optional*) specify a regex that will prevent all matching files from being injected.
-- __prefix__: (*optional*) add a prefix to the file while bundle file would be 
+- __onlinePath__: (*optional*) add an onlinePath prefix to the file while bundle file would be 
   pushed into CDN instead of a local file.
 
 ## License
