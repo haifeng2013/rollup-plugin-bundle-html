@@ -77,9 +77,9 @@ export default {
 You will find both bundle and map files are hashed and placed in your `dist/foo` folder:
  `bundle-76bf4fb5dbbd62f0fa3708aa3d8a9350.js`, `bundle-84e0f899735b1e320e625c9a5c7c49a7.js.map`
 
-## prefix
+## onlinePath
 
-You can set 'prefix' as anything like `//www.sohu.com/` if you want to put the files on CDN after building.
+You can set 'onlinePath' as anything like `//www.sohu.com/` if you want to put the files on CDN after building.
 
 ```js
 {
@@ -91,7 +91,7 @@ You can set 'prefix' as anything like `//www.sohu.com/` if you want to put the f
     html({
         dest: "dist/foo",
         // ...
-        prefix: '//www.sohu.com/dist/foo'
+        onlinePath: '//www.sohu.com/dist/foo'
     })
   ]
 }

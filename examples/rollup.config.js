@@ -12,7 +12,7 @@ export default {
       template: 'src/index.html',
       filename: 'index.html',
       dest: "dist/",
-      prefix: '//www.sohu.com/test/',
+      onlinePath: '//www.sohu.com/test/',
       // inject: 'head',
       externals: [
         { type: 'js', file: 'https://test.js', inject: 'head' }

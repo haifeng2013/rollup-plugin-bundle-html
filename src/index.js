@@ -25,7 +25,7 @@ function isURL(url){
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest, absolute, ignore, prefix } = opt;
+	const { template, filename, externals, inject, dest, absolute, ignore, onlinePath } = opt;
 
 	return {
 		name: 'html',
@@ -96,10 +96,10 @@ export default (opt = {}) => {
 
 				
 				let src = isURL(file) ? file : absolutePathPrefix + relative(destDir, file).replace(/\\/g, '/');
-				if (prefix) { 
+				if (onlinePath) { 
 					const filename = file.split('/').slice(-1)[0];
-					const divide = filename.slice(-1) === '/' ? '' : '/';
-					src = prefix + divide + filename;
+					const slash = onlinePath.slice(-1) === '/' ? '' : '/';
+					src = onlinePath + slash + filename;
 				}
 				if (node.timestamp) {
                     src += '?t=' + (new Date()).getTime();
