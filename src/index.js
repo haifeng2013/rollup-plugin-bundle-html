@@ -28,7 +28,7 @@ function isURL(url) {
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest, absolute, inline, minifyCss, ignore, exclude, onlinePath } = opt;
+	const { template, filename, clean, externals, scriptType, inject, dest, absolute, inline, minifyCss, ignore, exclude, onlinePath } = opt;
 
 	return {
 		name: 'html',
@@ -114,23 +114,15 @@ export default (opt = {}) => {
 
 				if (type === 'js') {
 					const script = `<script type="text/javascript" src="${src}"></script>\n`;
-					// node.inject will cover the inject
-					if (node.inject === 'head' || inject === 'head') {
-						head.append(inline ? `<script type="text/javascript">\n${code}\n</script>` : script);
-					} else {
-						body.append(inline ? `<script>\n${code}\n</script>` : script);
-					}
+					const content = inline ? `<script type=${scriptType ? scriptType : "text/javascript"}>\n${code}\n</script>\n` : script;
+					inject === "head" ? head.append(content) : body.append(content);
 				} else if (type === 'css') {
-					let style;
-					if (inline) {
-						style = `<style>\n${minifyCss ? new CleanCss().minify(code).styles : code}\n</style>`
-					}
-					else {
-						style = `<link rel="stylesheet" href="${src}">\n`;
-					}
-					head.append(style);
+					const style = `<link rel="stylesheet" href="${src}">\n`;
+					const content = inline ? `<style>\n${minifyCss ? new CleanCss().minify(code).styles : code}\n</style>\n` : style;
+					head.append(content);
 				}
 			});
+			if (clean) fileList.forEach(f => unlinkSync(f.file));
 			writeFileSync(destFile, $.html());
 		}
 	};

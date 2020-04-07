@@ -117,6 +117,8 @@ You can pass an option to the `html()` just like above, and there are some optio
 - inline: Optional. The files content will be directly inlined into the html.
 - minifyCss: Optional. This options apply only if inline options is set to true, and if css files are present in the bundle directory.
   the css will be minified with "clean-css" before being appended to the `<head>` of the document.
+- clean: Optional. indicate if the .js bundle should be removed at the end. (.map will not be removed);
+- scriptType: The value to set for the type attribute of the written script tags (text/javascript, module ...).
 - externals: Optional. a list of files which will be insert into the resule
   html. The file should be a valid url.
   - externals.__file__: file path.
@@ -126,9 +128,6 @@ You can pass an option to the `html()` just like above, and there are some optio
 - __inject__: (*optional*) indicate where to insert files， it can be 'head' or
   'body'. For default, the css files will be inserted into `<head>` and the js
   files will be inserted into `<body>`.
-- __defaultmode__: (*optional*) specify a value to use in the script `type` attribute.
-  If no mode is specified, the `type` attribute is omitted. Externals can
-  optionally override this per file.
 - __dest__: (*optional*) the folder in which js file is searched and be injected to html file.
 - __absolute__: (*optional*) indicates is paths of injected files should starts with "/".
 - __ignore__: (*optional*) specify a regex that will prevent all matching files from being injected.
