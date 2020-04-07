@@ -28,21 +28,26 @@ function isURL(url) {
 }
 
 export default (opt = {}) => {
-	const { template, filename, externals, inject, dest, inline, minifyCss, exclude } = opt;
+	const { template, filename, externals, inject, dest, absolute, inline, minifyCss, ignore, exclude, onlinePath } = opt;
 
 	return {
 		name: 'html',
-		//TODO: generateBundle seems to gives a different result, as the file are not written to disk, but are streamed in memory.
-		onwrite(config, data) {
-			const $ = cheerio.load(readFileSync(template).toString());
+		writeBundle(config, data) {
+			const isHTML = /^.*<html>.*<\/html>$/.test(template);
+			const $ = cheerio.load(isHTML?template:readFileSync(template).toString());
 			const head = $('head');
 			const body = $('body');
-			const { file, sourcemap } = config;
+			let entryConfig = {};
+			Object.values(config).forEach((c) => {
+				if (c.isEntry) entryConfig = c
+			})
+			const { fileName,	sourcemap } = entryConfig
 			const fileList = [];
 			// relative('./', file) will not be equal to file when file is a absolute path
-			const destPath = relative('./', file);
+			const destPath = relative('./', fileName);
 			const destDir = dest || destPath.slice(0, destPath.indexOf(pathSeperator));
 			const destFile = `${destDir}/${filename || basename(template)}`;
+			const absolutePathPrefix = absolute ? '/' : '';
 
 			traverse(destDir, fileList, exclude);
 
@@ -59,6 +64,10 @@ export default (opt = {}) => {
 
 			fileList.forEach(node => {
 				let { type, file } = node;
+				if (ignore && file.match(ignore)) {
+					return;
+				}
+
 				let hash = '';
 				let code = '';
 				const isHash = /\[hash\]/.test(file);
@@ -92,10 +101,15 @@ export default (opt = {}) => {
 					writeFileSync(file, code);
 				}
 
-				let src = isURL(file) ? file : relative(destDir, file);
-
+				
+				let src = isURL(file) ? file : absolutePathPrefix + relative(destDir, file).replace(/\\/g, '/');
+				if (onlinePath) { 
+					const filename = file.split('/').slice(-1)[0];
+					const slash = onlinePath.slice(-1) === '/' ? '' : '/';
+					src = onlinePath + slash + filename;
+				}
 				if (node.timestamp) {
-					src += '?t=' + (new Date()).getTime();
+                    src += '?t=' + (new Date()).getTime();
 				}
 
 				if (type === 'js') {
