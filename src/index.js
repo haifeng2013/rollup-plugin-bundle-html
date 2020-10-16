@@ -38,7 +38,7 @@ export default (opt = {}) => {
 			const head = $('head');
 			const body = $('body');
 			let entryConfig = {};
-			Object.values(config).forEach((c) => {
+			Object.values(data).forEach((c) => {
 				if (c.isEntry) entryConfig = c
 			})
 			const { fileName,	sourcemap } = entryConfig
